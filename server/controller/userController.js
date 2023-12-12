@@ -1,7 +1,7 @@
-const expressAsyncHandler = require('express-async-handler');
-const User = require('../models/userModel');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const expressAsyncHandler = require("express-async-handler");
+const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // @desc regestring new User
 // @route /api/users
@@ -11,14 +11,14 @@ const userRegister = expressAsyncHandler(async (req, res) => {
   // Validation
   if (!name || !email || !password) {
     res.status(400);
-    throw new Error('Please Include all input fields');
+    throw new Error("Please Include all input fields");
   }
 
   // Check if user exists
   const userExists = await User.findOne({ email: email });
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    throw new Error("User already exists");
   }
   // hash password
 
@@ -40,7 +40,7 @@ const userRegister = expressAsyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error('Could not add user');
+    throw new Error("Could not add user");
   }
 });
 
@@ -64,27 +64,25 @@ const userLogin = expressAsyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    throw new Error('Wrong user name or password');
+    throw new Error("Wrong user name or password");
   }
 });
 // @desc accessing user with authorization
 // @route /api/users/me
 // access private
-const getMe = expressAsyncHandler (async()=>{
+const getMe = expressAsyncHandler(async (req, res) => {
   const user = {
-    id : req.user._id,
-    name:req.user.name,
-    email:req.user.email
-  }
-  res.status(201).json({user})
-})
-
-
+    id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+  };
+  res.status(201).json({ user });
+});
 
 // Generate web token using JWT
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '60d' });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "60d" });
 };
 
 module.exports = {
