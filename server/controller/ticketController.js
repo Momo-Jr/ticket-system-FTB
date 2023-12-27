@@ -2,8 +2,6 @@ const expressAsyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Ticket = require("../models/ticketModel");
 
-// ... Other imports and configurations ...
-
 const getTickets = expressAsyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
   if (!user) {
@@ -14,7 +12,7 @@ const getTickets = expressAsyncHandler(async (req, res) => {
   res.status(200).json(tickets);
 });
 
-const createTickets = expressAsyncHandler(async (req, res) => {
+const createTicket = expressAsyncHandler(async (req, res) => {
   const { product, description } = req.body;
   if (!product || !description) {
     return res.status(400).send("Bad Request");
@@ -103,7 +101,7 @@ const updateTicket = expressAsyncHandler(async (req, res) => {
 
 module.exports = {
   getTickets,
-  createTickets,
+  createTicket,
   getTicket,
   updateTicket,
   deleteTicket,

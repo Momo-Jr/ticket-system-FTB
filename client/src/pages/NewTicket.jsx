@@ -18,19 +18,23 @@ function NewTicket() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(createTicket({ product, description }))
+    console.log("User token:", user.token);
+    dispatch(createTicket({ product, description }, user.token))
       .unwrap()
       .then(() => {
-        // We got a good response so navigate the user
+        // We got a good response, so navigate the user
         navigate("/tickets");
         toast.success("New ticket created!");
       })
-      .catch(toast.error);
+      .catch((error) => {
+        console.error("Error creating ticket", error);
+        toast.error("Failed to create ticket. Please try again.");
+      });
   };
 
   return (
     <>
-      <BackButton />
+      <BackButton url="/" />
       <section className="heading">
         <h1>Create New Ticket</h1>
         <p>Please fill out the form below</p>

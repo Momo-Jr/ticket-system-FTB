@@ -10,9 +10,17 @@ const createTicket = async (ticketData, token) => {
     },
   };
 
-  const response = await axios.post(API_URL, ticketData, config);
+  try {
+    const response = await axios.post(API_URL, ticketData, config);
 
-  return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(`Unexpected response status: ${response.status}`);
+    }
+  } catch (error) {
+    throw error;
+  }
 };
 
 // Get user tickets
