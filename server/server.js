@@ -1,18 +1,24 @@
+// server.js
 const express = require("express");
 const colors = require("colors");
-const cors = require("cors");
 const { errorHandler } = require("./middleware/errorMiddleware");
 const { connectDB } = require("./config/db");
 const dotenv = require("dotenv").config();
+const cors = require("cors");
+
 // Add express
 const app = express();
+
 // Port setup
 const PORT = process.env.PORT || 8000;
-// Connect to database
+
+// Connect to the database
 connectDB();
-// CORS usage
+
+// Middleware usage
+
 app.use(cors());
-// middleware usage
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -24,8 +30,10 @@ app.get("/", (req, res) => {
 app.use("/api/users", require("./routes/userRoute"));
 app.use("/api/tickets", require("./routes/ticketRoute"));
 
+// Error handling middleware
 app.use(errorHandler);
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

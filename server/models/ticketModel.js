@@ -1,19 +1,20 @@
 const mongoose = require("mongoose");
+
 const ticketSchema = mongoose.Schema(
   {
-    name: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
     product: {
       type: String,
-      required: [true, "Please select the product"],
-      enum: ["iphone", "pixel", "samsung", "oneplus"],
+      required: [true, "Please select a product"],
+      enum: ["iPhone", "Macbook Pro", "iMac", "iPad"],
     },
-    descripstion: {
+    description: {
       type: String,
-      required: [true, "Please add ticket description"],
+      required: [true, "Please enter a description of the issue"],
     },
     status: {
       type: String,
@@ -23,7 +24,7 @@ const ticketSchema = mongoose.Schema(
     },
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 
